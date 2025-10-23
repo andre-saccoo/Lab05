@@ -29,14 +29,47 @@ def main(page: ft.Page):
         weight=ft.FontWeight.BOLD
     )
 
+
+
+
+
     # TextField per responsabile
     input_responsabile = ft.TextField(value=autonoleggio.responsabile, label="Responsabile")
 
     # ListView per mostrare la lista di auto aggiornata
     lista_auto = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
-    # Tutti i TextField per le info necessarie per aggiungere una nuova automobile (marca, modello, anno, contatore posti)
-    # TODO
+    # Tutti i TextField per le info necessarie per aggiungere una nuova automobile
+    # (marca, modello, anno, contatore posti)
+
+
+
+    codice= None
+    modello= None
+    anno= None
+    contatore_posti= None
+
+    page.add(
+        ft.Column(
+            [
+                ft.Text("aggiungi nuova automobile", size=24),
+                ft.Row([ft.Text("marca:"), ft.TextField(width=150), ft.Text("modello:"), ft.TextField(width=150),ft.Text("anno:"), ft.TextField(width=150)]),
+            ]
+        )
+    )
+
+
+
+    #page.update()
+
+    #autonoleggio.aggiungi_automobile()
+
+
+
+
+
+
+
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_auto():
@@ -83,7 +116,7 @@ def main(page: ft.Page):
                alignment=ft.MainAxisAlignment.CENTER),
 
         # Sezione 3
-        # TODO
+        ft.Column( [ft.Text("aggiungi nuova automobile", size=24), ft.Row([ft.Text("marca:"), ft.TextField(width=150), ft.Text("modello:"), ft.TextField(width=150),ft.Text("anno:"), ft.TextField(width=150)])
 
         # Sezione 4
         ft.Divider(),
