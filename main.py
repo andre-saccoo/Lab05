@@ -1,4 +1,6 @@
 import flet as ft
+from flet.core import page
+
 from alert import AlertManager
 from autonoleggio import Autonoleggio
 
@@ -28,11 +30,6 @@ def main(page: ft.Page):
         size=16,
         weight=ft.FontWeight.BOLD
     )
-
-
-
-
-
     # TextField per responsabile
     input_responsabile = ft.TextField(value=autonoleggio.responsabile, label="Responsabile")
 
@@ -44,30 +41,15 @@ def main(page: ft.Page):
 
 
 
-    codice= None
-    modello= None
-    anno= None
-    contatore_posti= None
 
-    page.add(
-        ft.Column(
-            [
-                ft.Text("aggiungi nuova automobile", size=24),
-                ft.Row([ft.Text("marca:"), ft.TextField(width=150), ft.Text("modello:"), ft.TextField(width=150),ft.Text("anno:"), ft.TextField(width=150)]),
-            ]
-        )
-    )
+    input_marca = ft.TextField( label="marca", width=150)
+    input_modello = ft.TextField( label="modello", width=150)
+    input_anno=ft.TextField( label="anno", width=150)
 
+    def stampa_valori(e):
+        print(input_marca.value, input_modello.value, input_anno.value)
 
-
-    #page.update()
-
-    #autonoleggio.aggiungi_automobile()
-
-
-
-
-
+    bottone = ft.ElevatedButton("conferma", on_click = stampa_valori)
 
 
 
@@ -91,7 +73,26 @@ def main(page: ft.Page):
         page.update()
 
     # Handlers per la gestione dei bottoni utili all'inserimento di una nuova auto
-    # TODO
+
+
+    def decrementa(e):
+        valore=valore_output.value
+        valore_output.value=str(int(valore)-1)
+        valore_output.update()
+
+    def incrementa(e):
+        valore=valore_output.value
+        valore_output.value=str(int(valore)+1)
+        valore_output.update()
+
+    valore_output = ft.TextField(value="0", disabled=True, label= "numero posti", width=120, border_color="blue")
+    bottone_meno = ft.IconButton(icon=ft.Icons.REMOVE, icon_color="blue", icon_size=24, on_click=decrementa)
+    bottone_piu = ft.IconButton(icon=ft.Icons.ADD, icon_color="blue", icon_size=24, on_click=incrementa)
+    contatore = ft.Row(
+        controls=[bottone_meno, valore_output, bottone_piu],
+        spacing=0,
+        alignment=ft.MainAxisAlignment.CENTER)
+
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
@@ -113,10 +114,23 @@ def main(page: ft.Page):
         ft.Text("Modifica Informazioni", size=20),
         ft.Row(spacing=200,
                controls=[input_responsabile, pulsante_conferma_responsabile],
-               alignment=ft.MainAxisAlignment.CENTER),
+               alignment=ft.MainAxisAlignment.CENTER ),
 
         # Sezione 3
-        ft.Column( [ft.Text("aggiungi nuova automobile", size=24), ft.Row([ft.Text("marca:"), ft.TextField(width=150), ft.Text("modello:"), ft.TextField(width=150),ft.Text("anno:"), ft.TextField(width=150)])
+        ft.Column(
+            controls=[
+                            ft.Text("aggiungi nuova automobile", size=24),
+                            ft.Row(
+                                spacing=200,
+                                controls=[
+                                    input_marca,
+                                    input_modello,
+                                    input_anno,
+                                    contatore,
+                                    bottone
+                                ], alignment=ft.MainAxisAlignment.CENTER
+                            )]
+                    ),
 
         # Sezione 4
         ft.Divider(),
