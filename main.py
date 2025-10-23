@@ -42,6 +42,7 @@ def main(page: ft.Page):
 
 
 
+
     input_marca = ft.TextField( label="marca", width=150)
     input_modello = ft.TextField( label="modello", width=150)
     input_anno=ft.TextField( label="anno", width=150)
@@ -50,7 +51,7 @@ def main(page: ft.Page):
         print(input_marca.value, input_modello.value, input_anno.value)
 
     bottone = ft.ElevatedButton("conferma", on_click = stampa_valori)
-
+# gestire il numero di posti, prendere gli input darli alla funzione, stampare la lista macchine aggiornate
 
 
     # --- FUNZIONI APP ---
@@ -77,15 +78,16 @@ def main(page: ft.Page):
 
     def decrementa(e):
         valore=valore_output.value
-        valore_output.value=str(int(valore)-1)
-        valore_output.update()
+        if int(valore) > 1:
+            valore_output.value=str(int(valore)-1)
+            valore_output.update()
 
     def incrementa(e):
         valore=valore_output.value
         valore_output.value=str(int(valore)+1)
         valore_output.update()
 
-    valore_output = ft.TextField(value="0", disabled=True, label= "numero posti", width=120, border_color="blue")
+    valore_output = ft.TextField(value="1", disabled=True, label= "numero posti", width=120, border_color="blue")
     bottone_meno = ft.IconButton(icon=ft.Icons.REMOVE, icon_color="blue", icon_size=24, on_click=decrementa)
     bottone_piu = ft.IconButton(icon=ft.Icons.ADD, icon_color="blue", icon_size=24, on_click=incrementa)
     contatore = ft.Row(
