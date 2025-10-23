@@ -1,5 +1,4 @@
 import flet as ft
-#from flet.core import page
 from alert import AlertManager
 from autonoleggio import Autonoleggio
 
