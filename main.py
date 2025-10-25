@@ -1,23 +1,23 @@
+#installo il modulo flet dai python packages e importo: flet, la classe alert con gli avvisi e la classe autonoleggio
 import flet as ft
 from alert import AlertManager
 from autonoleggio import Autonoleggio
 
+#inserisco il file path in una variabile
 FILE_AUTO = "automobili.csv"
 
 def main(page: ft.Page):
-    # Definisco il titolo della pagina, gli allineamenti, il tema si partenza, le dimensioni iniziali quando lanci il programma e
+    # Definisco il titolo della pagina, gli allineamenti, il tema si partenza, le dimensioni iniziali quando lanci il programma
     page.title = "Lab05"
     page.horizontal_alignment = "center"
     page.theme_mode = ft.ThemeMode.DARK
     page.window.width=800
     page.window.height = 800
 
-    # --- ALERT ---
-    # messaggio di allerta
+    # --- ALERT --- messaggio di allerta
     alert = AlertManager (page)
 
-    # --- LA LOGICA DELL'APPLICAZIONE E' PRESA DALL'AUTONOLEGGIO DEL LAB03 ---
-    #inizializzo l'autonoleggio con il nome e il responsabile
+    # --- LA LOGICA DELL'APPLICAZIONE E' PRESA DALL'AUTONOLEGGIO DEL LAB03 --- inizializzo l'autonoleggio con il nome e il responsabile, se ci sono problemi nella lettura del file viene segnalato
     autonoleggio = Autonoleggio("Polito Rent", "Alessandro Visconti")
     try:
         autonoleggio.carica_file_automobili(FILE_AUTO) # Carica il file
@@ -41,6 +41,7 @@ def main(page: ft.Page):
     input_modello = ft.TextField( label="modello", expand=True)     #extend espande le caselle quando allarghi la schermata
     input_anno=ft.TextField( label="anno", expand=True)
     valore_output = ft.TextField(value="1", disabled=True, label="numero posti", width=70, border_color="blue")
+
     def decrementa(e):
          try:
             valore=valore_output.value
@@ -85,19 +86,23 @@ def main(page: ft.Page):
 
     # Handlers per la gestione dei bottoni utili all'inserimento di una nuova auto, per gestire il contatore dei posti
     def aggiunta_da_schermata(e):
+        # prendo i campi inseriti dalla schermata grafica, li pulisco, li passo alla funzione per creare un nuova automobile
         marca=input_marca.value.strip()
         if not marca:
             alert.show_alert(f"Marca non valida!")
             return
+
         modello=input_modello.value.strip()
         if not modello:
             alert.show_alert(f"Modello non valido!")
             return
+
         try:
             anno=int(input_anno.value)
         except Exception:
             alert.show_alert(f"Anno non valido!")
             return
+
         try:
             posti=int(valore_output.value)
         except Exception:
@@ -109,6 +114,7 @@ def main(page: ft.Page):
         except Exception:
             alert.show_alert(f"Errore nell'aggiunta dell'auto!")
 
+        # dopo aver creato una nuova automobile pulisco i campi della schermata per l'inserimento della prossima auto
         input_marca.value=""
         input_marca.update()
         input_modello.value=""
@@ -123,10 +129,6 @@ def main(page: ft.Page):
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
     pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=conferma_responsabile)
-
-
-    # Bottoni per la gestione dell'inserimento di una nuova auto
-    # TODO
 
     # --- LAYOUT ---
     page.add(
